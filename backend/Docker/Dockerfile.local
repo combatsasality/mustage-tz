@@ -1,0 +1,24 @@
+FROM python:3.11-slim
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends build-essential -y \
+    && rm -rf /var/lib/apt/lists/*
+
+
+COPY requirements.txt /tmp/requirements.txt
+    RUN pip install --no-cache-dir -r /tmp/requirements.txt \
+        && rm -rf /tmp/requirements.txt
+
+WORKDIR /backend
+
+COPY . .
+
+RUN chmod +x Docker/entrypoint.local.sh
+
+EXPOSE 8000
+
+ENTRYPOINT ["Docker/entrypoint.local.sh"]

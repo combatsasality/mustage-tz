@@ -1,0 +1,4 @@
+venv/
+scripts/envs/.env.backend
+scripts/envs/.env.pgbouncer
+scripts/envs/.env.db

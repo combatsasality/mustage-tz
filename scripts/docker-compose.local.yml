@@ -1,0 +1,54 @@
+volumes:
+  postgres_data:
+
+services:
+  nginx:
+    restart: always
+    image: mustage_registry/nginx:1.0
+    container_name: nginx
+    build:
+      context: ../nginx
+      dockerfile: ../nginx/Dockerfile.local
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - adminer
+
+  backend:
+    restart: always
+    image: mustage_registry/backend:1.0
+    container_name: backend
+    build:
+      context: ../backend
+      dockerfile: ../backend/Docker/Dockerfile.local
+    volumes:
+      - ../backend:/backend
+    env_file:
+      - envs/.env.backend
+    depends_on:
+      - pgbouncer
+
+  db:
+    restart: always
+    image: postgres:15.0
+    container_name: mustage_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - envs/.env.db
+
+  pgbouncer:
+    restart: always
+    image: bitnami/pgbouncer:latest
+    container_name: pgbouncer
+    depends_on:
+      - db
+    env_file:
+      - envs/.env.pgbouncer
+    ports:
+      - "6432:6432"
+
+  adminer:
+    restart: always
+    image: adminer
