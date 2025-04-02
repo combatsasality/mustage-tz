@@ -38,6 +38,11 @@ services:
     env_file:
       - envs/.env.db
 
+  redis:
+    restart: always
+    image: redis:latest
+    container_name: redis
+
   pgbouncer:
     restart: always
     image: bitnami/pgbouncer:latest
