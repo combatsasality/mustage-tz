@@ -5,7 +5,7 @@ services:
   nginx:
     restart: always
     image: mustage_registry/nginx:1.0
-    container_name: nginx
+    container_name: mustage_nginx
     build:
       context: ../nginx
       dockerfile: ../nginx/Dockerfile.local
@@ -18,7 +18,7 @@ services:
   backend:
     restart: always
     image: mustage_registry/backend:1.0
-    container_name: backend
+    container_name: mustage_backend
     build:
       context: ../backend
       dockerfile: ../backend/Docker/Dockerfile.local
@@ -32,7 +32,7 @@ services:
   aiogram:
     restart: always
     image: mustage_registry/aiogram:1.0
-    container_name: aiogram
+    container_name: mustage_aiogram
     build:
       context: ../aiogram
       dockerfile: ../aiogram/Docker/Dockerfile.local
@@ -58,7 +58,7 @@ services:
   pgbouncer:
     restart: always
     image: bitnami/pgbouncer:latest
-    container_name: pgbouncer
+    container_name: mustage_pgbouncer
     depends_on:
       - db
     env_file:
