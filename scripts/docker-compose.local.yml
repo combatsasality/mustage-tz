@@ -29,6 +29,18 @@ services:
     depends_on:
       - pgbouncer
 
+  aiogram:
+    restart: always
+    image: mustage_registry/aiogram:1.0
+    container_name: aiogram
+    build:
+      context: ../aiogram
+      dockerfile: ../aiogram/Docker/Dockerfile.local
+    volumes:
+      - ../aiogram:/aiogram
+    env_file:
+      - envs/.env.aiogram
+
   db:
     restart: always
     image: postgres:15.0
